@@ -1,0 +1,39 @@
+version: '3'
+services:
+  database:
+    image: mysql:8.0.3
+    expose:
+      - 3006
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_USER: "search_bot"
+      MYSQL_PASSWORD: "janfsknasjfnkjoiasfhjiokjsanf"
+      MYSQL_DATABASE: "search_bot"
+    volumes:
+      - "dsb_db:/var/lib/mysql"
+  bot:
+    build: .
+    restart: always
+    tty: yes
+    volumes:
+      - ./settings.json:/app/settings.json
+    depends_on:
+      - database
+    environment:
+      GOOGLE_API_TOKEN: ""
+      BOT_TOKEN: ""
+      GOOGLE_CX_ALL: "009036592350705430035:6ldu8w4sb8x"
+      GOOGLE_CX_STACKOVERFLOW: "009036592350705430035:zbtf2kvp09s"
+      GOOGLE_CX_WIKIPEDIA: "009036592350705430035:j11uwdiaio4"
+      CONFIG_FILE: "./settings.json"
+      DB_HOST: "database"
+      DB_PORT: "3306"
+      DB_USER: "search_bot"
+      DB_PASSWORD: "janfsknasjfnkjoiasfhjiokjsanf"
+      DB_NAME: "search_bot"
+      VERSION_ENVIRONMENT: "v0.1"
+      ENVIRONMENT: "Development-lc"
+      LOG_GUILD: "681516355920723982"
+      LOG_CHANNEL: "690657543122452510"
+volumes:
+  dsb_db:
